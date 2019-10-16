@@ -1,7 +1,7 @@
 # GWT e MapDB
-Un semplice esempio di uso di gwt e mapdb pensato per gli studenti del corso di [Ingegneria del Software](http://sweng.web.cs.unibo.it) del corso di laurea di Informatica per il management dell'Università di Bologna.
+Un semplice esempio di uso di gwt e mapdb pensato per gli studenti del corso di [Ingegneria del Software](http://sweng.web.cs.unibo.it) del corso di Laurea di Informatica per il Management dell'Università di Bologna.
 
-L'esempio e basato su questa [guida](https://mincong-h.github.io/2018/01/29/learning-gwt-with-maven/)
+L'esempio e basato su questa [guida](https://mincong-h.github.io/2018/01/29/learning-gwt-with-maven/).
 
 ### Prerequisiti
 
