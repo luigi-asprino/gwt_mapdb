@@ -1,0 +1,65 @@
+package com.mycompany.server;
+
+import org.mapdb.DB;
+import org.mapdb.DBMaker;
+import org.mapdb.HTreeMap;
+import org.mapdb.Serializer;
+
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.mycompany.client.GreetingService;
+import com.mycompany.shared.FieldVerifier;
+
+/**
+ * The server side implementation of the RPC service.
+ */
+@SuppressWarnings("serial")
+public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
+
+	public static final String DB_FILE = "file1.db";
+	public static final String SIMPLE_MAP = "simpleMap";
+
+	public String greetServer(String input) throws IllegalArgumentException {
+		// Verify that the input is valid.
+		if (!FieldVerifier.isValidName(input)) {
+			// If the input is not valid, throw an IllegalArgumentException back to
+			// the client.
+			throw new IllegalArgumentException("Name must be at least 4 characters long");
+		}
+
+		DB db = DBMaker.fileDB(DB_FILE).make();
+
+		// creo una semplice mappa String -> String nel db
+		// il tipo HTreeMap è thread safe
+		HTreeMap<String, Integer> map = db.hashMap(SIMPLE_MAP).keySerializer(Serializer.STRING)
+				.valueSerializer(Serializer.INTEGER).createOrOpen();
+
+		String result = input + " non contenuto";
+
+		if (map.containsKey(input)) {
+			result = input + " contenuto inviato " + map.get(input) + " volte!";
+			map.put(input, map.get(input) + 1);
+		} else {
+
+			result += " aggiungo!";
+			map.put(input, 1);
+
+		}
+
+		db.close();
+		return escapeHtml(result);
+	}
+
+	/**
+	 * Escape an html string. Escaping data received from the client helps to
+	 * prevent cross-site script vulnerabilities.
+	 *
+	 * @param html the html string to escape
+	 * @return the escaped string
+	 */
+	private String escapeHtml(String html) {
+		if (html == null) {
+			return null;
+		}
+		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+	}
+}
