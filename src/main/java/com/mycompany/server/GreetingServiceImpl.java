@@ -33,20 +33,17 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		HTreeMap<String, Integer> map = db.hashMap(SIMPLE_MAP).keySerializer(Serializer.STRING)
 				.valueSerializer(Serializer.INTEGER).createOrOpen();
 
-		String result = input + " non contenuto";
-
 		if (map.containsKey(input)) {
-			result = input + " contenuto inviato " + map.get(input) + " volte!";
+			System.out.println(input + " contenuto inviato " + map.get(input) + " volte!");
 			map.put(input, map.get(input) + 1);
 		} else {
-
-			result += " aggiungo!";
+			System.out.println(input + " non presente nel DB! Aggiungo!");
 			map.put(input, 1);
 
 		}
 
 		db.close();
-		return escapeHtml(result);
+		return escapeHtml("Ciao " + input + "!");
 	}
 
 	/**

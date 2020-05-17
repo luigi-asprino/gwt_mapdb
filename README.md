@@ -39,5 +39,13 @@ La logica applicativa è molto semplice.
 4. Nel caso in cui abbia ricevuto questo nome risponde dicendo quante volte lo ha ricevuto.
 
 
+### Testing
+
+E' possibile testare il software usando maven eseguendo da terminale il seguente comando.
+
+```
+mvn clean verify
+```
+
 
 
